@@ -43,9 +43,9 @@ class Dataset():
 
     def split(self, test_size=0.1):
         self.trainX, self.testX, self.trainY, self.testY = train_test_split(self.raw.data,
-                                                             self.raw.target,
-                                                             test_size=test_size,
-                                                             random_state=42)
+                                                                            self.raw.target,
+                                                                            test_size=test_size,
+                                                                            random_state=42)
 
     def get_train_data(self):
         return [self.trainX, self.trainY]
@@ -74,7 +74,7 @@ class Dataset():
             for k in trainStat.keys():
                 print("\t {}:{} = {}".format(k, self.classes[k], trainStat.get(k, 0)))
 
-        if self.testY is not  None:
+        if self.testY is not None:
             print ("Test stats: {}".format(len(self.testY)))
             testStat = Utils.count(self.testY)
             for k in testStat.keys():
@@ -244,7 +244,8 @@ class NewsClassifier():
             early_stopping = grid.best_params_[early_stopping]
 
             # 20 nepali news data
-            # hidden_layer_sizes=(100,), learning_rate_init=0.001, learning_rate=constant, max_iter=100, early_stopping=False, alpha=1e-06, momentum=0.7,0.9, score=0.737506, total= 5.2min
+            # hidden_layer_sizes=(100,), learning_rate_init=0.001, learning_rate=constant, max_iter=100,
+            #  early_stopping=False, alpha=1e-06, momentum=0.7,0.9, score=0.737506, total= 5.2min
 
         if train:
             estimator = MLPClassifier(solver=solver, alpha=alpha, learning_rate=learning_rate,
@@ -260,13 +261,14 @@ class NewsClassifier():
 
 if __name__ == '__main__':
     train = True
-    grid_search = True
+    grid_search = False
     estimators = ['naive', 'svm_linear', 'svm_rbf', 'mlp']  # ['naive', 'svm_linear', 'svm_rbf', 'mlp']
 
-    filename = r'/home/ashok/Documents/Datasets/20NepaliNews/'
+    filename = 'data/20NepaliNews/'
 
     dataset = Dataset(filename=filename, test_size=0.2)
     print(dataset.info())
+    assert train or grid_search, "Enable the training or grid_search."
     nc = NewsClassifier()
     for estimator in estimators:
         if estimator == 'naive':
